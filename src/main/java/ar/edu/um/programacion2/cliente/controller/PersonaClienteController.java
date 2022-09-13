@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.edu.um.programacion2.cliente.model.Persona;
-import ar.edu.um.programacion2.cliente.service.extern.PersonaService;
+import ar.edu.um.programacion2.cliente.service.PersonaService;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author daniel
@@ -26,6 +27,7 @@ import ar.edu.um.programacion2.cliente.service.extern.PersonaService;
  */
 @RestController
 @RequestMapping("/personaCliente")
+@Slf4j
 public class PersonaClienteController {
 
 	@Autowired
@@ -47,9 +49,9 @@ public class PersonaClienteController {
 	}
 
 	@DeleteMapping("/{documento}")
-	public ResponseEntity<Void> deleteByDocumento(@PathVariable Long documento) {
-		service.eliminar(documento);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	public ResponseEntity<Boolean> deleteByDocumento(@PathVariable Long documento) {
+		log.debug("Eliminando cliente {}", documento);
+		return new ResponseEntity<Boolean>(service.eliminar(documento), HttpStatus.OK);
 	}
 
 }

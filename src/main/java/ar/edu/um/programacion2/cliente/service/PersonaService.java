@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ar.edu.um.programacion2.cliente.service.extern;
+package ar.edu.um.programacion2.cliente.service;
 
 import java.util.List;
 
@@ -53,10 +53,13 @@ public class PersonaService {
 		return response.block();
 	}
 
-	public void eliminar(Long documento) {
+	public Boolean eliminar(Long documento) {
+		log.debug("Eliminando Cliente Service {}", documento);
 		WebClient webClient = WebClient.builder().baseUrl("http://127.0.0.1:8085/persona").build();
 
-		Mono<Void> response = webClient.delete().uri("/" + documento).retrieve().bodyToMono(Void.class);
+		Mono<Boolean> response = webClient.delete().uri("/" + documento).retrieve().bodyToMono(Boolean.class);
+
+		return response.block();
 	}
 
 }
